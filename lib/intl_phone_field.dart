@@ -202,6 +202,11 @@ class IntlPhoneField extends StatefulWidget {
   /// Default value is `true`.
   final bool showCountryFlag;
 
+  /// Whether to show or hide country flag.
+  ///
+  /// Default value is `true`.
+  final bool showDialCode;
+
   /// Message to be displayed on autoValidate error
   ///
   /// Default value is `Invalid Mobile Number`.
@@ -285,6 +290,7 @@ class IntlPhoneField extends StatefulWidget {
     this.textInputAction,
     this.autovalidateMode = AutovalidateMode.onUserInteraction,
     this.showCountryFlag = true,
+    this.showDialCode = true,
     this.cursorColor,
     this.disableLengthCheck = false,
     this.flagsButtonPadding = EdgeInsets.zero,
@@ -471,24 +477,21 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
                   const SizedBox(width: 4),
                 ],
                 if (widget.showCountryFlag) ...[
-                  kIsWeb
-                      ? Image.asset(
-                          'assets/flags/${_selectedCountry.code.toLowerCase()}.png',
-                          package: 'intl_phone_field',
-                          width: 32,
-                        )
-                      : Text(
-                          _selectedCountry.flag,
-                          style: const TextStyle(fontSize: 18),
-                        ),
-                  const SizedBox(width: 8),
+                  Image.asset(
+                    'assets/flags/${_selectedCountry.code.toLowerCase()}.png',
+                    package: 'intl_phone_field',
+                    width: 32,
+                  )
                 ],
-                FittedBox(
-                  child: Text(
-                    '+${_selectedCountry.dialCode}',
-                    style: widget.dropdownTextStyle,
-                  ),
-                ),
+                if (widget.showDialCode)
+                  Padding(
+                      padding: const EdgeInsets.only(left: 8),
+                      child: FittedBox(
+                        child: Text(
+                          '+${_selectedCountry.dialCode}',
+                          style: widget.dropdownTextStyle,
+                        ),
+                      )),
                 if (widget.enabled &&
                     widget.showDropdownIcon &&
                     widget.dropdownIconPosition == IconPosition.trailing) ...[
