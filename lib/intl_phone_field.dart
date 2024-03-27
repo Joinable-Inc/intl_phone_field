@@ -379,6 +379,7 @@ class _IntlPhoneFieldState extends State<IntlPhoneField> {
             widget.onCountryChanged?.call(country);
             setState(() {});
           },
+          showDialCode: widget.showDialCode,
         ),
       ),
     );

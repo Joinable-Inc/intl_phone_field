@@ -46,6 +46,7 @@ class CountryPickerDialog extends StatefulWidget {
   final List<Country> filteredCountries;
   final PickerDialogStyle? style;
   final String languageCode;
+  final bool showDialCode;
 
   const CountryPickerDialog({
     Key? key,
@@ -56,6 +57,7 @@ class CountryPickerDialog extends StatefulWidget {
     required this.selectedCountry,
     required this.filteredCountries,
     this.style,
+    this.showDialCode = true,
   }) : super(key: key);
 
   @override
@@ -80,7 +82,7 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
   @override
   Widget build(BuildContext context) {
     final mediaWidth = MediaQuery.of(context).size.width;
-    final width = widget.style?.width ?? mediaWidth;
+    final width = widget.style?.width ?? 300.0;
     const defaultHorizontalPadding = 40.0;
     const defaultVerticalPadding = 24.0;
     return Dialog(
@@ -135,10 +137,12 @@ class _CountryPickerDialogState extends State<CountryPickerDialog> {
                         _filteredCountries[index].localizedName(widget.languageCode),
                         style: widget.style?.countryNameStyle ?? const TextStyle(fontWeight: FontWeight.w700),
                       ),
-                      trailing: Text(
-                        '+${_filteredCountries[index].dialCode}',
-                        style: widget.style?.countryCodeStyle ?? const TextStyle(fontWeight: FontWeight.w700),
-                      ),
+                      trailing: widget.showDialCode
+                          ? Text(
+                              '+${_filteredCountries[index].dialCode}',
+                              style: widget.style?.countryCodeStyle ?? const TextStyle(fontWeight: FontWeight.w700),
+                            )
+                          : null,
                       onTap: () {
                         _selectedCountry = _filteredCountries[index];
                         widget.onCountryChanged(_selectedCountry);
